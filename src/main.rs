@@ -4,6 +4,7 @@ use clap::Parser;
 #[derive(Debug, Clone, clap::Subcommand)]
 enum Command {
     Create { path: PathBuf },
+    Generate,
 }
 
 #[derive(Debug, clap::Parser)]
@@ -19,6 +20,9 @@ fn main() -> anyhow::Result<()> {
         Command::Create { path } => {
             create(path)?;
         },
+        Command::Generate => {
+            generate()?;
+        },
     }
     Ok(())
 }
@@ -26,5 +30,10 @@ fn main() -> anyhow::Result<()> {
 fn create(path: PathBuf) -> anyhow::Result<()> {
     fs::create_dir_all(&path)?;
     fs::write(&format!("{}/_config.toml", path.to_string_lossy()), "# todo!")?;
+    Ok(())
+}
+
+fn generate() -> anyhow::Result<()> {
+    println!("Generating!");
     Ok(())
 }
