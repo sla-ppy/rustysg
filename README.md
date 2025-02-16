@@ -16,3 +16,10 @@ author: "John Doe"
 <p>My first post on this blog. Today I want to ...</p>
 ...
 ```
+
+## Development
+
+To work on this without having to constantly `cd` around, you can use the current working directory:
+
+1. `cargo run -- create .`
+2. `cargo run -- generate .`

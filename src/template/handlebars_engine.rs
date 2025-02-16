@@ -1,6 +1,5 @@
 use crate::template::engine::Engine;
 use handlebars::{no_escape, Handlebars};
-use std::collections::BTreeMap;
 
 pub struct HandlebarsEngine {}
 
