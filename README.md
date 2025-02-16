@@ -1,16 +1,18 @@
 # rustysg
 
+## Metadata
 
-## Syntax
+Each template file may start with some metadata:
 
-### ABNF
-
-```abnf
-template      = *(text / sub_expr)
-text          = *CHAR
-sub_expr      = "{{" expression "}}"
-expression    = variable / literal
-variable      = IDENT *("." IDENT)
-literal       = \x22 text \x22 ; text surrounded by quotes
-IDENT         = ALPHA *(ALPHA / DIGIT / "_" / "-")
+```yaml
+---
+title: "My Post"
+date: "2020-01-01"
+time: "12:30:00"
+description: "This is my first post"
+author: "John Doe"
+---
+<h1>{{ title }}</h1>
+<p>My first post on this blog. Today I want to ...</p>
+...
 ```

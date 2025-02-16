@@ -1,6 +1,8 @@
 use std::{fs, path::PathBuf};
 use clap::Parser;
 
+mod template;
+
 #[derive(Debug, Clone, clap::Subcommand)]
 enum Command {
     Create { path: PathBuf },
