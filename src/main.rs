@@ -1,5 +1,3 @@
-mod parser;
-
 use std::{fs, path::PathBuf};
 use clap::Parser;
 
