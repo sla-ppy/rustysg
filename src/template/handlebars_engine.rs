@@ -1,25 +1,29 @@
 use crate::template::engine::Engine;
-use handlebars::Handlebars;
+use handlebars::{no_escape, Handlebars};
 use std::collections::BTreeMap;
 
-pub struct HandlebarsEngine {
+pub struct HandlebarsEngine {}
 
+impl HandlebarsEngine {
+    pub fn new() -> Self {
+        HandlebarsEngine{}
+    }
 }
 
 impl Engine for HandlebarsEngine {
     fn render(&mut self, template: &str, context: super::context::Context) -> String {
-        context.content;
-        context.metadata.author;
-        context.metadata.title;
-        context.metadata.date;
-        context.metadata.description;
-        context.metadata.time;
-
-        // take template from render and create a handlebars template out of it
+        // create handlebars template out of base template
         let mut handlebars = Handlebars::new();
-        handlebars.register_template_string("template_0", template).unwrap();
+        // register handlebar template => parses -> compiles -> caches in registry
+        handlebars
+            .register_template_string("handlebars_template", template)
+            .unwrap();
 
-        // register handlebars template => parse -> compile -> cache in registry
-
+        // don't escape html like `<` and `>` since we want to render html here
+        handlebars.register_escape_fn(no_escape);
+        // gives compiler RenderError, when accessing unexistant fields
+        handlebars.set_strict_mode(true);
+        // render into string
+        handlebars.render("handlebars_template", &context).unwrap()
     }
 }

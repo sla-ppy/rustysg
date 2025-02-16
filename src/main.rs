@@ -1,5 +1,7 @@
 use std::{fs, path::PathBuf};
+use chrono::{NaiveDate, NaiveTime};
 use clap::Parser;
+use template::{context::{Context, Metadata}, engine::Engine, handlebars_engine::HandlebarsEngine};
 
 mod template;
 
@@ -38,12 +40,18 @@ fn create(path: PathBuf) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn generate(path: PathBuf) -> anyhow::Result<()> {
-    let path: String = path.to_string_lossy().to_string();
-    let mut template: String = fs::read_to_string(path + "/template/base_template.html")?;
+fn generate(_path: PathBuf) -> anyhow::Result<()> {
+    let template: String = fs::read_to_string("template.html")?;
     println!("Generating!");
-    let input = "Hello World!";
-    template = template.replace("{{ content.html }}", input);
-    println!("{}", template);
+    let context = Context::new("This is my content!".to_string(), Metadata {
+        title: "My cool post".to_string(),
+        description: "My first awesome post that I wrote".to_string(),
+        author: "Me Myself and I".to_string(),
+        date: NaiveDate::from_ymd_opt(2021, 10, 10).unwrap(),
+        time: NaiveTime::from_hms_opt(10, 11, 12).unwrap(),
+    });
+    let mut engine = HandlebarsEngine::new();
+    let result = engine.render(&template, context);
+    println!("{}", result);
     Ok(())
 }
